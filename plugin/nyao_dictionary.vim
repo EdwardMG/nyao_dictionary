@@ -41,8 +41,10 @@ endfu
 
 call s:setup()
 
-vno <space>d :ruby NyaoDictionary.add_word(VisualSelection.new.inner[0])<CR>
-nno <c-d> :ruby NyaoDictionary.add_word(Ev.expand("<cword>"))<CR>
+if exists('g:nyao_always_add_mappings') && g:nyao_always_add_mappings
+  vno <space>d :ruby NyaoDictionary.add_word(VisualSelection.new.inner[0])<CR>
+  nno <c-d> :ruby NyaoDictionary.add_word(Ev.expand("<cword>"))<CR>
 
-ino kj <C-R>=rubyeval('NyaoDictionary.complete')<CR>
+  ino kj <C-R>=rubyeval('NyaoDictionary.complete')<CR>
+endif
 
