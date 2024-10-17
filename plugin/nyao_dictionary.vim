@@ -34,6 +34,22 @@ module NyaoDictionary
     ''
   end
 
+  def self.complete_strict
+    l    = Vim::Buffer.current.line
+    col  = Ev.col('.')
+    i    = (l.rindex(/[ \.\/(,\[]/, col)||-1)+1
+    word = l[i..col]
+    ls   = File.readlines(@@p, chomp:true)
+
+    if word.bytes.any? { _1 > 64 && _1 < 91 }
+      ls.select! { _1.match?(word) }
+    else
+      ls.select! { _1.downcase.match?(word.downcase) }
+    end
+    Ev.complete(i+1, ls)
+    ''
+  end
+
   Ex['se dictionary='+@@p]
 end
 RUBY
@@ -46,5 +62,6 @@ if exists('g:nyao_always_add_mappings') && g:nyao_always_add_mappings
   nno <c-d> :ruby NyaoDictionary.add_word(Ev.expand("<cword>"))<CR>
 
   ino kj <C-R>=rubyeval('NyaoDictionary.complete')<CR>
+  ino kh <C-R>=rubyeval('NyaoDictionary.complete_strict')<CR>
 endif
 

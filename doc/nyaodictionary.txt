@@ -36,6 +36,15 @@ USAGE
 
   should be an insert mapping
 
+<C-R>=rubyeval('NyaoDictionary.complete_strict')
+
+  Start vims autocomplete using nyao_dictionary words you have added. Unlike
+  NyaoDictionary.complete, does not include <.> as part of word being
+  completed, which is preferable when trying to complete a method name on an
+  instance.
+
+  should be an insert mapping
+
 vim:autoindent noexpandtab tabstop=8 shiftwidth=8
 vim:se modifiable
 vim:tw=78:et:ft=help:norl:
